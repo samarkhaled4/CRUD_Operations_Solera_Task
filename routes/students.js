@@ -41,12 +41,26 @@ studentsRouter.get('/:id',async(req,res)=>{
 
 //edit info about a student
 studentsRouter.patch('/:id',async(req,res)=>{
-
+    try{
+        const id=req.params.id;
+        const s=await Student.findByIdAndUpdate({_id:id},
+            {$set:{name:req.body.name,age:parseInt(req.body.age)}},{new:true});
+            res.json(s);
+    }
+    catch(err){
+        res.send(err);
+    }
 })
 
 //delete a student
 studentsRouter.delete('/:id',async(req,res)=>{
-
+    try{
+        const s=Student.findByIdAndDelete(req.params.id);
+        res.json(s);
+    }
+    catch(err){
+        res.send(err);
+    }
 })
 
 module.exports=studentsRouter;
